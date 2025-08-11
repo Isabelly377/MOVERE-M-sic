@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MOVERE Músic</title>
+    <style>
+        :root {
+            --cor-primaria: #456da1;
+            --cor-secundaria: #00337a;
+            --cor-fundo: #f4faff;
+            --cor-texto: #222;
+            --cor-destaque: #e6f0ff;
+            --cor-historia: #fff9e6;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: var(--cor-primaria);
+            color: #fff;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nome-empresa {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        header img {
+            max-width: 100px;
+            transition: transform 0.3s ease;
+        }
+        
+        header img:hover {
+            transform: scale(1.05);
+        }
+        
+        .slogan {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 300;
+            font-size: 1.2em;
+        }
+        
+        /* Seção de História */
+        .historia {
+            background: var(--cor-historia);
+            padding: 40px 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .historia h2 {
+            color: var(--cor-primaria);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        .historia-conteudo {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .historia-texto {
+            flex: 1;
+        }
+        
+        .historia-imagem {
+            flex: 1;
+            max-width: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .historia-imagem img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .historia-imagem:hover img {
+            transform: scale(1.03);
+        }
+        
+        /* Container de produtos - 2 por linha */
+        .produtos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        @media (max-width: 900px) {
+            .produtos-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .produto {
+            background: var(--cor-destaque);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .produto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .produto-imagem-grande {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .produto-imagem-grande img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .produto-imagem-grande:hover img {
+            transform: scale(1.05);
+        }
+        
+        .produto-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 250px);
+        }
+        
+        .produto-info h2 {
+            margin-top: 0;
+            color: var(--cor-primaria);
+            font-size: 1.5em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .produto-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--cor-primaria);
+        }
+        
+        .descricao-produto {
+            flex-grow: 1;
+            font-size: 1em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .preco-detalhes {
+            border-top: 2px solid var(--cor-primaria);
+            padding-top: 15px;
+        }
+        
+        .preco {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--cor-primaria);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .preco-original {
+            text-decoration: line-through;
+            color: #777;
+            font-size: 0.8em;
+            margin-right: 10px;
+        }
+        
+        .desconto {
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 0.9em;
+            margin-left: 10px;
+            background: #e8f5e9;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .parcelado {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .cores-disponiveis {
+            margin-bottom: 15px;
+        }
+        
+        .cores-disponiveis p {
+            margin: 5px 0 10px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .galeria-cores {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .cor {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--cor-primaria);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .cor.selecionada {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 2px white, 0 0 0 4px var(--cor-primaria);
+        }
+        
+        .cor:hover {
+            transform: scale(1.2);
+        }
+        
+        .cor::after {
+            content: attr(title);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .cor:hover::after {
+            opacity: 1;
+        }
+        
+        /* cores específicas */
+        .cor.preto { background: #000; }
+        .cor.azul { background: #004aad; }
+        .cor.vermelho { background: #cc0000; }
+        .cor.branco { background: #fff; border: 2px solid #ccc; }
+        .cor.cinza { background: #888; }
+        .cor.rosa { background: #ff4081; }
+        
+        .comprar-btn {
+            background: var(--cor-primaria);
+            color: white;
+            padding: 12px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            box-shadow: 0 5px 12px rgba(0, 74, 173, 0.6);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .comprar-btn:hover {
+            background: var(--cor-secundaria);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(0, 74, 173, 0.8);
+        }
+        
+        .comprar-btn:active {
+            transform: translateY(0);
+        }
+        
+        .comprar-btn::before {
+            content: '🛒';
+        }
+        
+        .quantidade {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        
+        .quantidade label {
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .quantidade input {
+            width: 60px;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            background: var(--cor-primaria);
+            color: white;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        
+        footer a {
+            color: #a1c4fd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-conteudo {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fechar-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .fechar-modal:hover {
+            color: #333;
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .historia-conteudo {
+                flex-direction: column;
+            }
+            
+            .historia-imagem {
+                max-width: 100%;
+                order: -1;
+            }
+            
+            .produto-imagem-grande {
+                height: 200px;
+            }
+            
+            .comprar-btn {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .galeria-cores {
+                gap: 8px;
+            }
+            
+            .cor {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .quantidade {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <span class="nome-empresa">MOVERE Músic</span>
+    </div>
+    <img src="logo.jpeg" alt="MOVERE Músic Logo" />
+    <p class="slogan">A Criatividade é a inteligência se divertindo</p>
+</header>
+
+<!-- Seção de História -->
+<section class="historia">
+    <h2>Nossa História</h2>
+    <div class="historia-conteudo">
+        <div class="historia-texto">
+            <p>História
+Nossa empresa começou em 2010, com uma ideia que foi movida pela empatia e inclusão social.
+Para sermos inovadores, não é necessário ter QI alto, basta apenas ser criativo e ousado. Decidimos usar essa criatividade em prol do próximo, mais especificamente para pessoas portadoras de deficiência. 
+Em 2007 tivemos a oportunidade de conhecer Gustavo, um menino que possuía uma deficiência física, ele não possuía o braço esquerdo, e seu sonho era tocar na banda escolar, porém a sua deficiência o impedia. 
+Então decidimos nos posicionar em um ato de compaixão e inclusão, pois a música está no coração de todos e seu físico não deveria ser uma limitação.
+A elaboração começou instantaneamente, nosso primeiro protótipo foi concluído em 2008 permitindo que ele se apresentasse com a banda realizando seu sonho. Foi então que em 2009 decidimos expandir o projeto para mais pessoas, incluindo suas necessidades em novos instrumentos. Fundando assim nossa empresa em 2010, a MOVERE Músic.</p>
+        </div>
+        <div class="historia-imagem">
+            <img src="equipe.jpeg" alt="Equipe MOVERE Músic desenvolvendo instrumentos adaptados" />
+        </div>
+    </div>
+</section>
+
+<!-- Grid de Produtos - 2 por linha -->
+<div class="produtos-container">
+
+    <!-- Produto 1 - Violão Adaptado -->
+    <div class="produto" data-id="1">
+        <div class="produto-imagem-grande">
+            <img src="violao.jpeg" alt="Violão Adaptado" id="imagem-principal-1" />
+        </div>
+        <div class="produto-info">
+            <h2>Violão Adaptado</h2>
+            <p class="descricao-produto">
+                Violão especial para pessoas com limitação motora. Cordas organizadas em grupos com afinação pré-definida para acordes prontos. Permite tocar com apenas uma mão ou movimentos reduzidos.
+            </p>
+            <div class="preco-detalhes">
+                <p class="preco">
+                    <span class="preco-original"><R1></R1>222,22</span>
+                    <R1></R1>199,99 <span class="desconto">10% OFF</span>
+                </p>
+                <p class="parcelado">ou 10x de <R1></R1>20,00 sem juros</p>
+                
+                <div class="quantidade">
+                    <label for="quantidade-1">Quantidade:</label>
+                    <input type="number" id="quantidade-1" min="1" value="1" class="input-quantidade">
+                </div>
+                
+                <div class="cores-disponiveis">
+                    <p>Cores disponíveis:</p>
+                    <div class="galeria-cores">
+                        <div class="cor preto selecionada" title="Preto" data-cor="preto" data-produto="1" data-imagem="violao-adaptado1.jpg"></div>
+                        <div class="cor azul" title="Azul" data-cor="azul" data-produto="1" data-imagem="violao-adaptado-azul.jpg"></div>
+                        <div class="cor vermelho" title="Vermelho" data-cor="vermelho" data-produto="1" data-imagem="violao-adaptado-vermelho.jpg"></div>
+                    </div>
+                </div>
+                <button class="comprar-btn" data-produto="1">Comprar Agora</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produto 2 - Teclado Jamboxx -->
+    <div class="produto" data-id="2">
+        <div class="produto-imagem-grande">
+            <img src="imagem2a.jpg" alt="Teclado Inclusivo" id="imagem-principal-2" />
+        </div>
+        <div class="produto-info">
+            <h2>Teclado Jamboxx</h2>
+            <p class="descricao-produto">
+                Instrumento digital controlado por sopro e movimento da boca. Conecta via USB e funciona como controlador MIDI. Ideal para pessoas com mobilidade reduzida nas mãos.
+            </p>
+            <div class="preco-detalhes">
+                <p class="preco">
+                    <span class="preco-original"><R1></R1>352,99</span>
+                    R$299,99 <span class="desconto">15% OFF</span>
+                </p>
+                <p class="parcelado">ou 12x de <R1></R1>25,00 sem juros</p>
+                
+                <div class="quantidade">
+                    <label for="quantidade-2">Quantidade:</label>
+                    <input type="number" id="quantidade-2" min="1" value="1" class="input-quantidade">
+                </div>
+                
+                <div class="cores-disponiveis">
+                    <p>Cores disponíveis:</p>
+                    <div class="galeria-cores">
+                        <div class="cor azul selecionada" title="Azul" data-cor="azul" data-produto="2" data-imagem="imagem2a.jpg"></div>
+                        <div class="cor vermelho" title="Vermelho" data-cor="vermelho" data-produto="2" data-imagem="teclado-vermelho.jpg"></div>
+                        <div class="cor rosa" title="Rosa" data-cor="rosa" data-produto="2" data-imagem="teclado-rosa.jpg"></div>
+                    </div>
+                </div>
+                <button class="comprar-btn" data-produto="2">Comprar Agora</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal de confirmação -->
+<div class="modal" id="modal-confirmacao">
+    <div class="modal-conteudo">
+        <span class="fechar-modal">&times;</span>
+        <h2 id="modal-titulo">Produto adicionado ao carrinho!</h2>
+        <p id="modal-mensagem"></p>
+        <button class="comprar-btn" id="modal-botao">Continuar Comprando</button>
+    </div>
+</div>
+
+<footer>
+    © 2025 MOVERE Músic | 
+    
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Seleção de cores
+        const cores = document.querySelectorAll('.cor');
+        cores.forEach(cor => {
+            cor.addEventListener('click', function() {
+                const produtoId = this.getAttribute('data-produto');
+                const corSelecionada = this.getAttribute('data-cor');
+                const novaImagem = this.getAttribute('data-imagem');
+                
+                // Remover seleção de todas as cores deste produto
+                document.querySelectorAll(`.cor[data-produto="${produtoId}"]`).forEach(c => {
+                    c.classList.remove('selecionada');
+                });
+                
+                // Adicionar seleção à cor clicada
+                this.classList.add('selecionada');
+                
+                // Atualizar imagem principal
+                document.getElementById(`imagem-principal-${produtoId}`).src = novaImagem;
+            });
+        });
+        
+        // Configuração do modal
+        const modal = document.getElementById('modal-confirmacao');
+        const modalTitulo = document.getElementById('modal-titulo');
+        const modalMensagem = document.getElementById('modal-mensagem');
+        const modalBotao = document.getElementById('modal-botao');
+        const fecharModal = document.querySelector('.fechar-modal');
+        const botoesCompra = document.querySelectorAll('.comprar-btn');
+        
+        // Função para formatar valor monetário
+        function formatarMoeda(valor) {
+            return valor.toFixed(2).replace('.', ',');
+        }
+        
+        // Botão de compra
+        botoesCompra.forEach(botao => {
+            botao.addEventListener('click', function() {
+                const produtoId = this.getAttribute('data-produto');
+                const produtoElemento = document.querySelector(`.produto[data-id="${produtoId}"]`);
+                const nomeProduto = produtoElemento.querySelector('h2').textContent;
+                const corSelecionada = produtoElemento.querySelector('.cor.selecionada').getAttribute('title');
+                const quantidade = parseInt(produtoElemento.querySelector('.input-quantidade').value);
+                const precoTexto = produtoElemento.querySelector('.preco').textContent.split('R$')[1].split(' ')[0].trim();
+                const preco = parseFloat(precoTexto.replace(',', '.'));
+                const total = preco * quantidade;
+                
+                // Exibir modal
+                modalTitulo.textContent = `${nomeProduto} adicionado ao carrinho!`;
+                modalMensagem.innerHTML = `
+                    <strong>Detalhes do pedido:</strong><br>
+                    Cor: ${corSelecionada}<br>
+                    Quantidade: ${quantidade}<br>
+                    Preço unitário: €${precoTexto}<br>
+                    Total: R${formatarMoeda(total)}
+                `;
+                modal.style.display = 'flex';
+            });
+        });
+        
+        // Fechar modal
+        fecharModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        modalBotao.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Validação da quantidade
+        const inputsQuantidade = document.querySelectorAll('.input-quantidade');
+        inputsQuantidade.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value < 1 || isNaN(this.value)) {
+                    this.value = 1;
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
